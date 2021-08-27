@@ -1,0 +1,10 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="BTEgerBungee">
+    <output-path>$PROJECT_DIR$/../../../[SERVER]/Proxy/plugins</output-path>
+    <root id="archive" name="BTEgerBungee.jar">
+      <element id="module-output" name="BTEgerBungee" />
+      <element id="library" level="project" name="BungeeCord" />
+      <element id="library" level="project" name="spigot" />
+    </root>
+  </artifact>
+</component>
