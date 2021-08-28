@@ -9,6 +9,7 @@ import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
 import java.util.ArrayList;
 
+import de.lucas.btegermany.datasave.Strings;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -20,14 +21,23 @@ import org.bukkit.plugin.messaging.PluginMessageListener;
 public class BukkitReceive extends JavaPlugin implements PluginMessageListener, Listener {
     private static Plugin instance;
 
-    private static String channel = "bungeeteleport:main";
+    private static String channel = "bteteleport:main";
 
     public void onEnable() {
-        instance = (Plugin)this;
-            channel = "BungeeTeleport";
-        Bukkit.getMessenger().registerOutgoingPluginChannel((Plugin)this, channel);
-        Bukkit.getMessenger().registerIncomingPluginChannel((Plugin)this, channel, this);
-        Bukkit.getServer().getPluginManager().registerEvents(this, (Plugin)this);
+        try {
+            Bukkit.getConsoleSender().sendMessage(Strings.prefix + "§6Spigot-System fährt hoch ......");
+            instance = (Plugin)this;
+            channel = "BTETeleport";
+            Bukkit.getMessenger().registerOutgoingPluginChannel((Plugin)this, channel);
+            Bukkit.getMessenger().registerIncomingPluginChannel((Plugin)this, channel, this);
+            Bukkit.getServer().getPluginManager().registerEvents(this, (Plugin)this);
+
+            Bukkit.getConsoleSender().sendMessage(Strings.prefix + " ...... §aSpigot-System Hochgefahren");
+        } catch (Exception e) {
+            Bukkit.getConsoleSender().sendMessage(Strings.prefix + "§4Fehler beim Hochfahren des Spigot-Systems Server wird gestoppt!");
+            Bukkit.shutdown();
+            e.printStackTrace();
+        }
     }
 
     public void onDisable() {
