@@ -25,8 +25,6 @@ import org.bukkit.entity.Player;
 
 public class bta extends Command {
     private static List<String> cmds = Arrays.asList(new String[] { "btr", "bungeeteleportrequest" });
-    private HashMap<ProxiedPlayer, ArrayList<ProxiedPlayer>> anfrage = new HashMap<ProxiedPlayer, ArrayList<ProxiedPlayer>>();
-
 
     public bta(String name) {
         super(name);
@@ -48,27 +46,6 @@ public class bta extends Command {
                 from.sendMessage(ChatColor.RED + "This player is not online !");
                 return;
             }
-
-            if(anfrage.containsKey(to)) {
-                if(anfrage.get(to).contains(from)) {
-                    from.sendMessage(Strings.prefix + "§4You already send: " + to.getName() + " §4a teleport request!");
-                } else {
-                    anfrage.get(to).add(from);
-                    from.sendMessage(Strings.prefix + "§aYou have send a Teleport Request to: §7" + to.getName());
-                    to.sendMessage(Strings.prefix + "§aTeleport Request from §6" + from.getName());
-                    to.sendMessage(Strings.prefix + "§e/bta accept " + from.getName());
-                    to.sendMessage(Strings.prefix + "§e/bta deny " + from.getName());
-                }
-            } else {
-                ArrayList<ProxiedPlayer> request = new ArrayList<ProxiedPlayer>();
-                request.add(from);
-                anfrage.put(to, request);
-                from.sendMessage(Strings.prefix + "§aYou have send a Teleport Request to: §7" + to.getName());
-                to.sendMessage(Strings.prefix + "§aTeleport Request from §6" + from.getName());
-                to.sendMessage(Strings.prefix + "§e/bta accept " + from.getName());
-                to.sendMessage(Strings.prefix + "§e/bta deny " + from.getName());
-            }
-
             teleport(from, to);
             from.sendMessage(ChatColor.GREEN + "You have been teleported to " + ChatColor.DARK_GREEN + "" + ChatColor.BOLD + to.getName());
             return;
@@ -77,57 +54,14 @@ public class bta extends Command {
             ProxiedPlayer from = ProxyServer.getInstance().getPlayer(args[0]);
             ProxiedPlayer to = ProxyServer.getInstance().getPlayer(args[1]);
             if (from == null) {
-                sender.sendMessage(ChatColor.RED + args[0] + " is offline !");
+                sender.sendMessage(ChatColor.RED + args[0] + " is not online !");
                 return;
             }
             if (to == null) {
-                sender.sendMessage(ChatColor.RED + args[1] + " is offline !");
+                sender.sendMessage(ChatColor.RED + args[1] + " is not online !");
                 return;
             }
-
-            if(args[0].equalsIgnoreCase("accept")) {
-                ProxiedPlayer from2 = ProxyServer.getInstance().getPlayer(args[1]);
-
-                if(from2 == null) {
-                    from.sendMessage(ChatColor.RED + args[1] + " is offline !");
-                } else {
-
-                    if(anfrage.containsKey(from)) {
-                        if(anfrage.get(from).contains(from2)) {
-                            from.sendMessage(Strings.prefix + "§aTeleport Request from: " + from2.getName() + " accepted!");
-                            from2.sendMessage(Strings.prefix + from.getName() + " Teleport request accepted!");
-                            teleport(from2, from);
-                            anfrage.get(from).remove(from2);
-                        } else {
-                            from.sendMessage(Strings.prefix + "§cYou dont have an Teleport Request from this Player!");
-                        }
-                    } else {
-                        from.sendMessage(Strings.prefix + "§cYou dont have an Teleport Request from this Player!");
-                    }
-                }
-            } else if(args[0].equalsIgnoreCase("deny")) {
-                ProxiedPlayer from2 = ProxyServer.getInstance().getPlayer(args[1]);
-
-                if(from2 == null) {
-                    from.sendMessage(ChatColor.RED + args[1] + " is offline !");
-                } else {
-
-                    if(anfrage.containsKey(from)) {
-                        if(anfrage.get(from).contains(from2)) {
-                            from.sendMessage(Strings.prefix + "§aTeleport Request from: " + from2.getName() + " denied!");
-                            from2.sendMessage(Strings.prefix + from.getName() + " Teleport request denied!");
-                            anfrage.get(from).remove(from2);
-                        } else {
-                            from.sendMessage(Strings.prefix + "§cYou dont have an Teleport Request from this Player!");
-                        }
-                    } else {
-                        from.sendMessage(Strings.prefix + "§cYou dont have an Teleport Request from this Player!");
-                    }
-                }
-
-            } else {
-                from.sendMessage(Strings.prefix + "§4/bta <player> [<player>] or /bta accept/deny <Player>");
-            }
+            teleport(from, to);
             sender.sendMessage(ChatColor.DARK_GREEN + "" + ChatColor.BOLD + from.getName() + ChatColor.RESET + "" + ChatColor.GREEN + " has been teleported to " + ChatColor.DARK_GREEN + "" + ChatColor.BOLD + to.getName() + ".");
         }
     }
