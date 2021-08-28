@@ -1,7 +1,7 @@
 package de.lucas.btegermany.main;
 
 /*
- * Copyright (c) BTE Germany 2021.2
+ * Copyright (c) BTE Germany 2021.
  * Plugin by Lucas L. - CompileException.
  */
 
@@ -32,9 +32,6 @@ public class Core extends Plugin {
             ProxyServer.getInstance().getPluginManager()
                     .registerCommand(this, (Command)new bta(cmd));
         Metrics metrics = new Metrics(this);
-        /*
-        / Teleport
-        */
     }
 
     public void onDisable() {

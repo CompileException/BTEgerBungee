@@ -1,4 +1,4 @@
 name: BungeeCord System for BTE Germany
 author: LucasL
-version: 0.1
+version: 0.2
 main: de.lucas.btegermany.bteteleport.bukkit.BukkitReceive

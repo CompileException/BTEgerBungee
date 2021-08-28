@@ -10,6 +10,7 @@ import java.io.DataOutputStream;
 
 import de.lucas.btegermany.main.Core;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
+import net.md_5.bungee.api.connection.Server;
 
 public class BungeeSend {
     public static void teleport(ProxiedPlayer from, ProxiedPlayer to) {
